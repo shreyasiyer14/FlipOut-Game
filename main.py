@@ -42,7 +42,7 @@ for brick in brickList:
 
 class message:
 	## VARIOUS FONTS STYLES
-	small_font =  pygame.font.Font('Fonts/tlpsmb.TTF',25)
+	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
 	med_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',40)
 	large_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',60)
 	
@@ -122,7 +122,7 @@ def game_intr():
 				
 
 def gamem():
-    pygame.mixer.play(-1)
+    	pygame.mixer.music.play(-1)
 	lead_x_change = 0
 	#lead_y_change = 0
 	block_size = 32
