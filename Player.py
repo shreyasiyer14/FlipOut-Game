@@ -11,6 +11,11 @@ class Player:
         self.onGround = False
         self.velocity = 0
         self.direction = 1
+       
+    def flip(self):
+        self.velocity = -10
+        self.direction*=-1
+        self.y += self.direction*self.velocity
         
     def detectCollisions(self, x1,y1,w1,h1,x2,y2,w2,h2):  
         if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
@@ -47,7 +52,7 @@ class Player:
                 	self.y = blockY - self.height
                 self.falling = True
                 self.onGround = True
-                self.velocity = -5
+                self.velocity = -10
         else:
             self.falling = True
             self.onGround = False

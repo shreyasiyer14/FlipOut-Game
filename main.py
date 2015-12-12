@@ -16,13 +16,13 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-background = pygame.image.load("Assets/bck.png")
+#background = pygame.image.load("Assets/bck.png")
 
 screenWidth = 800
 screenHeight = 640
 fps = 60
 
-pygame.mixer.music.load('Assets/Sounds/Music.mp3')
+#pygame.mixer.music.load('Assets/Sounds/Music.mp3')
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 
 levelobj = Level(0)
@@ -61,8 +61,7 @@ class message:
 			return textSurface,textSurface.get_rect()
 		elif size =="large":
 			textSurface = message.large_font.render(text,True,color)
-			return textSurface,textSurface.get_rect()
-	## 	
+			return textSurface,textSurface.get_rect()	
 	def set(self,(width,height),(posx,posy)):
 		posx1,posy1 = pygame.mouse.get_pos()
 		if(posx1>=posx-width and posx1<=(posx +width)) and (posy1>=posy and posy1<=(posy + height)):	
@@ -120,33 +119,11 @@ def game_intr():
 				if event.type == pygame.QUIT:
 					return 0
 					
-				
-def pause():
-	paused = True
-	game = message()
-	
-	paused = game.message_to_screen("Paused",red,-100,size="medium")
-	paused = game.message_to_screen("Press S to continue or Q to quit",green,25,size="small")
-	pygame.display.update()
-
-	while paused:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-				quit()
-
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_s:
-					paused = False
-				elif event.key == pygame.K_q:
-					pygame.quit()
-					quit()
-		fps.tick(5)
 def gamem():
         game = message()
     	global score
 	global count
-    	pygame.mixer.music.play(-1)
+ #   	pygame.mixer.music.play(-1)
 	lead_x_change = 0
 
 	block_size = 32
@@ -191,6 +168,9 @@ def gamem():
 					lead_x_change = -5
 				elif event.key == pygame.K_RIGHT:	
 					lead_x_change = 5
+				elif event.key == pygame.K_SPACE:
+					player.flip()
+			
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					lead_x_change = 0
@@ -202,11 +182,10 @@ def gamem():
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
 		gameDisplay.fill(white)
-		gameDisplay.blit(background, (0,0))
-	  		
-		gameOver=player.update(brickList,gameOver)
+#		gameDisplay.blit(background, (0,0))
+	  	if gameOver == False:
+			gameOver=player.update(brickList,gameOver)
 		player.render(gameDisplay)
-		
         	if (count%50==0):
             		score+=1
   		game.display_score(str(score))
