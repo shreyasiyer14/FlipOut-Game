@@ -40,6 +40,9 @@ for y in range(len(level)):
 for brick in brickList:
 	brick.render(gameDisplay)
 
+score = 0
+count = 0
+
 class message:
 	## VARIOUS FONTS STYLES
 	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
@@ -122,6 +125,7 @@ def game_intr():
 				
 
 def gamem():
+    	global score
     	pygame.mixer.music.play(-1)
 	lead_x_change = 0
 	#lead_y_change = 0
@@ -168,6 +172,7 @@ def gamem():
 					
 		if lead_x_change >= 0:
 	        	player.x += lead_x_change/4 - lead_x_change/5
+                	count += lead_x_change/4 - lead_x_change/5
     		else:
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
@@ -177,6 +182,9 @@ def gamem():
 		player.update(brickList)
 		player.render(gameDisplay)
 		
+        	if (count%50==0):
+            		score+=1
+  		game.display_score(str(score))
 		for brick in brickList:
 			brick.x -= lead_x_change
 			brick.render(gameDisplay)	
