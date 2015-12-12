@@ -82,8 +82,6 @@ class message:
 
 	## DISPLAYING  THE TEXT OBJECT
 	def message_to_screen(self,msg,color,y_displace=0,size="small",text="start",intro="True"):
-		
-			
 		if(text=="start"):				
 			if(self.set((50,17),(screenWidth/2,screenHeight/2+y_displace))):
 				gamem();
@@ -123,22 +121,48 @@ def game_intr():
 					return 0
 					
 				
+def pause():
+	paused = True
+	game = message()
+	
+	paused = game.message_to_screen("Paused",red,-100,size="medium")
+	paused = game.message_to_screen("Press S to continue or Q to quit",green,25,size="small")
+	pygame.display.update()
 
+	while paused:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()
+				quit()
+
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_s:
+					paused = False
+				elif event.key == pygame.K_q:
+					pygame.quit()
+					quit()
+		fps.tick(5)
 def gamem():
+        game = message()
     	global score
+	global count
     	pygame.mixer.music.play(-1)
 	lead_x_change = 0
-	#lead_y_change = 0
+
 	block_size = 32
 	gameOver = False
 	gameExit = False
 	while not gameExit:
-		## OUTER LOOP FOR GAME  	
+		## OUTER LOOP FOR GAME
+	        if gameOver == True:
+        	    gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="large")
+        	    gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="medium")
+            	    pygame.display.update()
 		while gameOver == True :
 			## INNER LOOP FOR GAME OVER
-			gameDisplay.fill(white)
 			gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="large")
 			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="medium")
+			
 			pygame.display.update()	
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -154,6 +178,7 @@ def gamem():
 						gameExit = True
 						game_intr()	
 			
+
 		## READING OF THE USER INPUT THROUGH KEYBOARD
 
 		for event in pygame.event.get():
@@ -178,8 +203,8 @@ def gamem():
 					
 		gameDisplay.fill(white)
 		gameDisplay.blit(background, (0,0))
-		
-		player.update(brickList)
+	  		
+		gameOver=player.update(brickList,gameOver)
 		player.render(gameDisplay)
 		
         	if (count%50==0):

@@ -24,7 +24,7 @@ class Player:
         else:
             return False
                     
-    def update(self, blockList): 
+    def update(self, blockList,gameOver): 
         hasCollided = False      
         blockX,blockY=0,0       
         for block in blockList:
@@ -35,9 +35,8 @@ class Player:
                 hasCollided = True
                 break
 	    if (hasCollided and block.y > 0 and block.y < 608):
-		pygame.quit()
-		quit()
-            else:
+            	gameOver = True
+	    else:
                 hasCollided = False
                 
         if (hasCollided):
@@ -62,9 +61,8 @@ class Player:
            self.falling = True
            self.onGround = False
         self.y-=(self.velocity*self.direction)
-        
+        return gameOver 
     def render(self,window):
-        #img = pygame.image.load('Sprites/megaman.bmp')
         pygame.draw.rect(window, (255,0,0),(self.x, self.y, self.width, self.height))
-        #window.blit(img, (self.x, self.y))
+        
 

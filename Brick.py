@@ -9,6 +9,6 @@ class Brick:
 	self.color = color
 
     def render(self, window):
-        img = pygame.image.load('Assets/brick.png')
-        #pygame.draw.rect(window,self.color,(self.x, self.y, self.width, self.height))
-        window.blit(img, (self.x, self.y))
+        #img = pygame.image.load('Assets/brick.png')
+        pygame.draw.rect(window,self.color,(self.x, self.y, self.width, self.height))
+        #window.blit(img, (self.x, self.y))
