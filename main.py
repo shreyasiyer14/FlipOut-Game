@@ -16,7 +16,7 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-#background = pygame.image.load("Assets/bck.png")
+background = pygame.image.load("Assets/bck.png")
 
 screenWidth = 800
 screenHeight = 640
@@ -172,7 +172,7 @@ def gamem():
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
 		gameDisplay.fill(white)
-		#gameDisplay.blit(background, (0,0))
+		gameDisplay.blit(background, (0,0))
 		
 		player.update(brickList)
 		player.render(gameDisplay)
