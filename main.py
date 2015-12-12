@@ -22,6 +22,7 @@ screenWidth = 800
 screenHeight = 640
 fps = 60
 
+pygame.mixer.music.load('Assets/Sounds/Music.mp3')
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 
 levelobj = Level(0)
@@ -121,6 +122,7 @@ def game_intr():
 				
 
 def gamem():
+    pygame.mixer.play(-1)
 	lead_x_change = 0
 	#lead_y_change = 0
 	block_size = 32
