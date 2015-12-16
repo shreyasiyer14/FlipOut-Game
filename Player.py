@@ -66,8 +66,11 @@ class Player:
            self.falling = True
            self.onGround = False
         self.y-=(self.velocity*self.direction)
+       
         return gameOver 
     def render(self,window):
-        pygame.draw.rect(window, (255,0,0),(self.x, self.y, self.width, self.height))
+	img = pygame.image.load('Assets/creeper.bmp')
+        pygame.draw.rect(window, (0,0,0),(self.x-2, self.y-2, self.width+4, self.height+4))
+	window.blit(img,(self.x,self.y))
         
 

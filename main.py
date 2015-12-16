@@ -16,7 +16,7 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-#background = pygame.image.load("Assets/bck.png")
+background = pygame.image.load("Assets/background.bmp")
 
 screenWidth = 800
 screenHeight = 640
@@ -25,30 +25,20 @@ fps = 60
 #pygame.mixer.music.load('Assets/Sounds/Music.mp3')
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 
-levelobj = Level(0)
-brickList = []
-level = levelobj.level_design()
-
 player = Player(400,300)
 randcirclelist = []
 
-for y in range(len(level)):
-	for x in range(len(level[y])):
-		if (level[y][x] == 1):
-			brickList.append(Brick(x*32,y*32,(205,155,100)))
-			
-for brick in brickList:
-	brick.render(gameDisplay)
-
 score = 0
 count = 0
+lives = 3
 
 class message:
 	## VARIOUS FONTS STYLES
 	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
 	med_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',40)
 	large_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',60)
-	
+	def_font =  pygame.font.Font('Fonts/classic.TTF',25)
+	gameov_font  = pygame.font.Font('Fonts/eddie.ttf',50)
 	def __init__(self):
 		pass
 	## MAKING TEXT MSG ENTERED TO AN OBJECT
@@ -75,21 +65,21 @@ class message:
 		return False
 
 	## DISPLAYING SCORE	
-	def display_score(self,msg):
-		screen_text = message.med_font.render(msg,True,black)	
-		gameDisplay.blit(screen_text,[0,0])
+	def display_score(self,msg,posx,posy):
+		screen_text = message.def_font.render(msg,True,white)	
+		gameDisplay.blit(screen_text,[posx,posy])
 
 	## DISPLAYING  THE TEXT OBJECT
 	def message_to_screen(self,msg,color,y_displace=0,size="small",text="start",intro="True"):
 		if(text=="start"):				
-			if(self.set((50,17),(screenWidth/2,screenHeight/2+y_displace))):
+			if(self.set((80,19),(screenWidth/2,screenHeight/2+y_displace))):
 				gamem();
-			if(self.hover((50,17),(screenWidth/2,screenHeight/2+y_displace)))	:			
+			if(self.hover((80,19),(screenWidth/2,screenHeight/2+y_displace)))	:			
 				color = yellow
 		elif(text=="exit"):				
-			if(self.set((50,17),(screenWidth/2,screenHeight/2+y_displace))):
+			if(self.set((80,19),(screenWidth/2,screenHeight/2+y_displace))):
 				intro = False
-			if(self.hover((50,17),(screenWidth/2,screenHeight/2+y_displace)))	:			
+			if(self.hover((80,19),(screenWidth/2,screenHeight/2+y_displace)))	:			
 				color = yellow
 			
 		textSurf , textRect = self.text_objects(msg,color,size)
@@ -97,7 +87,28 @@ class message:
 		gameDisplay.blit(textSurf,textRect)
 		
 		return intro
-		
+def GameOver():
+		gameExit = False
+		game = message()
+		gameOver = True	
+		while gameOver:
+			gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="medium")
+			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="small")
+			
+			pygame.display.update()	
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					gameOver = True
+					gameExit = True	
+				elif event.type== pygame.KEYDOWN :
+					if event.key == pygame.K_q:
+						gameExit = True
+						gameOver = True
+						game_intr()
+					elif event.key == pygame.K_c:
+						gameExit = False
+						gameOver = False
+						gamem()	
 def game_intr():
 	game = message()
 	intro = True 
@@ -113,51 +124,37 @@ def game_intr():
 			intro=game.message_to_screen("FlipOut!",(155,155,105),-150,size="large",text="none")
 			intro=game.message_to_screen("START GAME",white,-20)
 			intro=game.message_to_screen("EXIT GAME",white,20,text="exit")
-			pygame.display.update()
 			clock.tick(15)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					return 0
+					intro = False
+					pygame.quit()
+					quit()
 					
-def gamem():
-        game = message()
-    	global score
-	global count
- #   	pygame.mixer.music.play(-1)
-	lead_x_change = 0
+			pygame.display.update()
 
+lives = 3
+def gamem():
+	global lives
+	levelobj = Level(0)
+	brickList = []
+	level = levelobj.level_design()
+	for y in range(len(level)):
+		for x in range(len(level[y])):
+			if (level[y][x] == 1):
+				brickList.append(Brick(x*32,y*32,(205,155,100)))
+			
+	for brick in brickList:
+		brick.render(gameDisplay)
+        game = message()
+    	score = 0
+	count = 1
+	lead_x_change = 0
+ #   	pygame.mixer.music.play(-1)
 	block_size = 32
 	gameOver = False
 	gameExit = False
-	while not gameExit:
-		## OUTER LOOP FOR GAME
-	        if gameOver == True:
-        	    gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="large")
-        	    gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="medium")
-            	    pygame.display.update()
-		while gameOver == True :
-			## INNER LOOP FOR GAME OVER
-			gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="large")
-			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="medium")
-			
-			pygame.display.update()	
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					gameOver =False
-					gameExit = True
-					
-				elif event.type== pygame.KEYDOWN :
-					if event.key == pygame.K_q:
-						gameOver =False
-						gameExit = True
-					elif event.key == pygame.K_c:
-						gameOver =False
-						gameExit = True
-						game_intr()	
-			
-
-		## READING OF THE USER INPUT THROUGH KEYBOARD
-
+	while not gameOver:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				gameExit = True
@@ -177,21 +174,28 @@ def gamem():
 					
 		if lead_x_change >= 0:
 	        	player.x += lead_x_change/4 - lead_x_change/5
-                	count += lead_x_change/4 - lead_x_change/5
     		else:
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
+                count += lead_x_change/5
 		gameDisplay.fill(white)
-#		gameDisplay.blit(background, (0,0))
-	  	if gameOver == False:
-			gameOver=player.update(brickList,gameOver)
+		gameDisplay.blit(background, (0,0))
+		gameOver = player.update(brickList,gameOver)
+		if (gameOver):
+			lives -= 1
+			gamem()
 		player.render(gameDisplay)
-        	if (count%50==0):
-            		score+=1
-  		game.display_score(str(score))
+		
+        	if (int(count)%50==0):
+            		score+=1	
 		for brick in brickList:
 			brick.x -= lead_x_change
-			brick.render(gameDisplay)	
+			brick.render(gameDisplay)
+		pygame.draw.rect(gameDisplay, black, (0,0,800,32))
+		game.display_score("Score   "+str(score),0,0)
+		game.display_score("Lives   "+str(lives),690,0)	
+		if lives == 0:
+			GameOver()
 		pygame.display.update()			
 		clock.tick(fps)
 
