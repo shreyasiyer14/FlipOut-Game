@@ -150,7 +150,9 @@ def gamem():
 	for y in range(len(level)):
 		for x in range(len(level[y])):
 			if (level[y][x] == 1):
-				brickList.append(Brick(x*32,y*32,(205,155,100)))
+				brickList.append(Brick(x*32,y*32,(205,155,100),1))
+			elif (level[y][x] == 2):
+				brickList.append(Brick(x*32,y*32,(205,155,100),2))
 			
 	for brick in brickList:
 		brick.render(gameDisplay)
