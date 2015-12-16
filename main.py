@@ -52,7 +52,7 @@ class message:
 		elif size =="large":
 			textSurface = message.large_font.render(text,True,color)
 			return textSurface,textSurface.get_rect()	
-	def set(self,(width,height),(posx,posy)):
+	def setup(self,(width,height),(posx,posy)):
 		posx1,posy1 = pygame.mouse.get_pos()
 		if(posx1>=posx-width and posx1<=(posx +width)) and (posy1>=posy and posy1<=(posy + height)):	
 			if(pygame.mouse.get_pressed()[0]):
@@ -72,12 +72,12 @@ class message:
 	## DISPLAYING  THE TEXT OBJECT
 	def message_to_screen(self,msg,color,y_displace=0,size="small",text="start",intro="True"):
 		if(text=="start"):				
-			if(self.set((80,19),(screenWidth/2,screenHeight/2+y_displace))):
+			if(self.setup((80,19),(screenWidth/2,screenHeight/2+y_displace))):
 				gamem();
 			if(self.hover((80,19),(screenWidth/2,screenHeight/2+y_displace)))	:			
 				color = yellow
 		elif(text=="exit"):				
-			if(self.set((80,19),(screenWidth/2,screenHeight/2+y_displace))):
+			if(self.setup((80,19),(screenWidth/2,screenHeight/2+y_displace))):
 				intro = False
 			if(self.hover((80,19),(screenWidth/2,screenHeight/2+y_displace)))	:			
 				color = yellow
@@ -98,12 +98,12 @@ def GameOver():
 			pygame.display.update()	
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					gameOver = True
+					#gameOver = True
 					gameExit = True	
 				elif event.type== pygame.KEYDOWN :
 					if event.key == pygame.K_q:
 						gameExit = True
-						gameOver = True
+						#gameOver = True
 						game_intr()
 					elif event.key == pygame.K_c:
 						gameExit = False
@@ -135,6 +135,7 @@ def game_intr():
 
 lives = 3
 def gamem():
+	img = pygame.image.load('Assets/creeper.bmp')
 	global lives
 	levelobj = Level(0)
 	brickList = []
@@ -154,7 +155,7 @@ def gamem():
 	block_size = 32
 	gameOver = False
 	gameExit = False
-	while not gameOver:
+	while not gameExit:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				gameExit = True
@@ -167,7 +168,7 @@ def gamem():
 					lead_x_change = 5
 				elif event.key == pygame.K_SPACE:
 					player.flip()
-			
+					img = pygame.transform.rotate(img,180)			
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					lead_x_change = 0
@@ -180,12 +181,11 @@ def gamem():
                 count += lead_x_change/5
 		gameDisplay.fill(white)
 		gameDisplay.blit(background, (0,0))
-		gameOver = player.update(brickList,gameOver)
+		gameOver,img = player.update(brickList,gameOver,img)
 		if (gameOver):
 			lives -= 1
 			gamem()
-		player.render(gameDisplay)
-		
+		player.render(gameDisplay,img)		
         	if (int(count)%50==0):
             		score+=1	
 		for brick in brickList:

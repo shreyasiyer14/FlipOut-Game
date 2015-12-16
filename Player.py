@@ -29,8 +29,8 @@ class Player:
         else:
             return False
                     
-    def update(self, blockList,gameOver): 
-        hasCollided = False      
+    def update(self, blockList,gameOver,img): 
+	hasCollided = False      
         blockX,blockY=0,0       
         for block in blockList:
             hasCollided = self.detectCollisions(self.x, self.y, self.width, self.height, block.x, block.y, block.width, block.height)
@@ -53,6 +53,7 @@ class Player:
                 self.falling = True
                 self.onGround = True
                 self.velocity = -10
+	    	img = pygame.transform.rotate(img,180)
         else:
             self.falling = True
             self.onGround = False
@@ -67,9 +68,9 @@ class Player:
            self.onGround = False
         self.y-=(self.velocity*self.direction)
        
-        return gameOver 
-    def render(self,window):
-	img = pygame.image.load('Assets/creeper.bmp')
+        return gameOver,img 
+    def render(self,window,img):
+	#img = pygame.image.load('Assets/creeper.bmp')
         pygame.draw.rect(window, (0,0,0),(self.x-2, self.y-2, self.width+4, self.height+4))
 	window.blit(img,(self.x,self.y))
         
