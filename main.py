@@ -22,8 +22,8 @@ screenWidth = 800
 screenHeight = 640
 fps = 60
 
-pygame.mixer.music.load('Assets/Sounds/Music.mp3')
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
+pygame.display.set_caption("FlipOut!")
 
 player = Player(400,300)
 randcirclelist = []
@@ -112,6 +112,9 @@ def GameOver():
 def game_intr():
 	game = message()
 	intro = True 
+  	pygame.mixer.music.stop()
+	pygame.mixer.music.load('Assets/Sounds/introMusic.mp3')
+	pygame.mixer.music.play(-1)
 	while intro:
 			gameDisplay.fill(black)
 			circle = IntroCircle(5)
@@ -135,6 +138,10 @@ def game_intr():
 
 lives = 3
 def gamem():
+
+  	pygame.mixer.music.stop()
+	pygame.mixer.music.load('Assets/Sounds/gameMusic.mp3')
+	pygame.mixer.music.play(-1)
 	img = pygame.image.load('Assets/creeper.bmp')
 	global lives
 	levelobj = Level(0)
@@ -151,7 +158,6 @@ def gamem():
     	score = 0
 	count = 1
 	lead_x_change = 0
-    	pygame.mixer.music.play(-1)
 	block_size = 32
 	gameOver = False
 	gameExit = False
@@ -202,3 +208,4 @@ def gamem():
 game_intr()
 pygame.quit()
 quit()					
+
