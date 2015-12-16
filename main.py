@@ -22,7 +22,7 @@ screenWidth = 800
 screenHeight = 640
 fps = 60
 
-#pygame.mixer.music.load('Assets/Sounds/Music.mp3')
+pygame.mixer.music.load('Assets/Sounds/Music.mp3')
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 
 player = Player(400,300)
@@ -151,7 +151,7 @@ def gamem():
     	score = 0
 	count = 1
 	lead_x_change = 0
- #   	pygame.mixer.music.play(-1)
+    	pygame.mixer.music.play(-1)
 	block_size = 32
 	gameOver = False
 	gameExit = False
