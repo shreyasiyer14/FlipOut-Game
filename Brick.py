@@ -10,8 +10,15 @@ class Brick:
 	self.color = color
 
     def render(self, window):
-        if self.ID == 2:
+	if self.ID == 'g':
             img = pygame.image.load('Assets/grass.bmp')
-        else:
+        
+	elif self.ID == 'b':
             img = pygame.image.load('Assets/brick.bmp')
-        window.blit(img, (self.x, self.y))
+
+        elif self.ID == 's':
+            img = pygame.image.load('Assets/stone.bmp')
+        
+        elif self.ID == 'q':
+            img = pygame.image.load('Assets/qmark.bmp')
+	window.blit(img, (self.x, self.y))

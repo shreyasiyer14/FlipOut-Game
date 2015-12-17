@@ -16,7 +16,6 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-background = pygame.image.load("Assets/background.bmp")
 
 screenWidth = 800
 screenHeight = 640
@@ -31,7 +30,7 @@ randcirclelist = []
 score = 0
 count = 0
 lives = 3
-
+pygame.mixer.init()
 class message:
 	## VARIOUS FONTS STYLES
 	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
@@ -149,10 +148,8 @@ def gamem():
 	level = levelobj.level_design()
 	for y in range(len(level)):
 		for x in range(len(level[y])):
-			if (level[y][x] == 1):
-				brickList.append(Brick(x*32,y*32,(205,155,100),1))
-			elif (level[y][x] == 2):
-				brickList.append(Brick(x*32,y*32,(205,155,100),2))
+			if (level[y][x] != 0):
+				brickList.append(Brick(x*32,y*32,(205,155,100),level[y][x]))
 			
 	for brick in brickList:
 		brick.render(gameDisplay)
@@ -176,7 +173,10 @@ def gamem():
 					lead_x_change = 5
 				elif event.key == pygame.K_SPACE:
 					player.flip()
-					img = pygame.transform.rotate(img,180)			
+	        	        	points_sound = pygame.mixer.Sound("beep.wav")
+        	        	    	points_sound.play()
+					img = pygame.transform.rotate(img,180)
+							
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					lead_x_change = 0
@@ -188,6 +188,11 @@ def gamem():
 					
                 count += lead_x_change/5
 		gameDisplay.fill(white)
+
+		if (score - 5 >= 0 and score + 5 <= 15):
+			background = pygame.image.load("Assets/background.bmp")
+		else:
+			background = pygame.image.load("Assets/background.bmp")
 		gameDisplay.blit(background, (0,0))
 		gameOver,img = player.update(brickList,gameOver,img)
 		if (gameOver):
