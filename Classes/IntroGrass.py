@@ -10,5 +10,5 @@ class IntroGrass:
         self.x -= 10
 
     def render(self,window):
-        img = pygame.image.load('Assets/grass.bmp')
+        img = pygame.image.load('Assets/Images/grass.bmp')
         window.blit(img,(self.x,self.y))

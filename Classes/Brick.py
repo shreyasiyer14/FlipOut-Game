@@ -11,14 +11,14 @@ class Brick:
 
     def render(self, window):
 	if self.ID == 'g':
-            img = pygame.image.load('Assets/grass.bmp')
+            img = pygame.image.load('Assets/Images/grass.bmp')
         
 	elif self.ID == 'b':
-            img = pygame.image.load('Assets/brick.bmp')
+            img = pygame.image.load('Assets/Images/brick.bmp')
 
         elif self.ID == 's':
-            img = pygame.image.load('Assets/stone.bmp')
+            img = pygame.image.load('Assets/Images/stone.bmp')
         
         elif self.ID == 'q':
-            img = pygame.image.load('Assets/qmark.bmp')
+            img = pygame.image.load('Assets/Images/qmark.bmp')
 	window.blit(img, (self.x, self.y))
