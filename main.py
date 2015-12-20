@@ -23,9 +23,9 @@ fps = 120
 
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 pygame.display.set_caption("FlipOut!")
+pygame.display.set_icon(pygame.image.load('Assets/creeper.bmp'))
 
 player = Player(400,300)
-randcirclelist = []
 
 score = 0
 count = 0
