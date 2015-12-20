@@ -203,7 +203,7 @@ def gamem():
     	global score
 	sp_itms = 0
 	count = 1
-	time = 60
+	time = 40
 	
 	lead_x_change = 0
 	block_size = 32
@@ -264,7 +264,7 @@ def gamem():
 		game.display_score("Items  "+str(sp_itms),250,0)
 		game.display_score("Lives   "+str(lives),690,0)	
 		game.display_score("Time   "+str(int(time)),420,0)
-		if lives == 0 or time == 0:
+		if lives == 0 or int(time) == 0:
 			GameOver()
 		pygame.display.update()			
 		clock.tick(fps)
