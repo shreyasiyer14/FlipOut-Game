@@ -1,11 +1,12 @@
 import pygame
 import time
 import random
+import Classes.Brick as Brick
 
-from Brick import *
-from Player import *
-from Level import *
-from IntroGrass import *
+from Classes.Brick import *
+from Classes.Player import *
+from Classes.Level import *
+from Classes.IntroGrass import *
 
 pygame.init()
 clock = pygame.time.Clock()
