@@ -39,3 +39,9 @@ Making this game was really fun, and the concept of the game makes it addictive.
 
 (In-game)
 ![Alt text](https://github.com/djeof-1/API-HackDayProject/blob/master/Screen Shot 2015-12-20 at 12.48.02 PM.png "Screenshot #2")
+
+***
+
+<b>The music used in the game were royalty-free and copyright free. All the music used in the game were taken from Free Music Archive</b>
+
+www.freemusicarchive.org
