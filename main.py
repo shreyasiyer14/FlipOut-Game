@@ -136,13 +136,13 @@ def game_intr():
 	pygame.mixer.music.load('Assets/Sounds/introMusic.mp3')
 	pygame.mixer.music.play(-1)
 	count = 1
-	
-	tempPlayer = Player(400,300)
-	tempdx = random.randrange(-5,5)
-	
+	x = 400
+	y = 300
+
+	dx = random.randrange(-10,10)
+	dy = random.randrange(-10,10)
+
 	while intro:
-			tempPlayer.x += tempdx
-			tempPlayer.update([],0,creeper)	
 			if count%3==0:
 				grass = IntroGrass(800,608)
 				grassList.append(grass)
@@ -154,8 +154,19 @@ def game_intr():
 				if (grass.x < -32):
 					grassList.remove(grass)
 				grass.render(gameDisplay)
-		
-			tempPlayer.render(gameDisplay,creeper)
+			
+			if (x > 768):
+				dx *= -1
+			elif (x < 0):
+				dx *= -1
+			if (y < 0):
+				dy *= -1
+			elif (y > 608):	
+				dy *= -1	
+			x += dx
+			y += dy
+			pygame.draw.rect(gameDisplay, black, (x - 2, y - 2, 36, 36))
+			gameDisplay.blit(creeper, (x,y))	
 			intro=game.message_to_screen("FlipOut!",(135,155,105),-150,size="large",text="none")
 			intro=game.message_to_screen("START GAME",(139,0,139),-20)
 			intro=game.message_to_screen("EXIT GAME",(139,0,139),20,text="exit")
