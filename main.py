@@ -203,7 +203,7 @@ def gamem():
     	global score
 	sp_itms
 	count = 1
-	time = 180
+	time = 60
 	
 	lead_x_change = 0
 	block_size = 32
