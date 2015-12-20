@@ -201,7 +201,7 @@ def gamem():
 		brick.render(gameDisplay)
         game = message()
     	global score
-	sp_itms
+	sp_itms = 0
 	count = 1
 	time = 60
 	
