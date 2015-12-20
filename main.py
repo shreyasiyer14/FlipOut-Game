@@ -180,6 +180,7 @@ def game_intr():
 			pygame.display.update()
 
 lives = 3
+sp_itms = 0
 def gamem():
 
   	pygame.mixer.music.stop()
@@ -198,10 +199,11 @@ def gamem():
 	for brick in brickList:
 		brick.render(gameDisplay)
         game = message()
-    	score = 0
+    	global score
+	global sp_itms
 	count = 1
 	time = 180
-	sp_itms = 0
+	
 	lead_x_change = 0
 	block_size = 32
 	gameOver = False
