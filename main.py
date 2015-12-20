@@ -121,6 +121,7 @@ def GameOver():
 						gameExit = False
 						gameOver = False
 						lives = 3
+						score = 0
 						gamem()	
 def game_intr():
 	game = message()
@@ -200,7 +201,7 @@ def gamem():
 		brick.render(gameDisplay)
         game = message()
     	global score
-	global sp_itms
+	sp_itms
 	count = 1
 	time = 180
 	
