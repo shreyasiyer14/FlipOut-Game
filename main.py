@@ -5,7 +5,7 @@ import random
 from Brick import *
 from Player import *
 from Level import *
-from IntroCircle import *
+from IntroGrass import *
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -19,7 +19,7 @@ yellow =(255,255,0)
 
 screenWidth = 800
 screenHeight = 640
-fps = 60
+fps = 120
 
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 pygame.display.set_caption("FlipOut!")
@@ -31,6 +31,19 @@ score = 0
 count = 0
 lives = 3
 pygame.mixer.init()
+
+creeper = pygame.image.load('Assets/creeper.bmp')
+def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
+    if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
+        return True
+    elif (x2+w2>=x1+w1>=x2 and y2+h2>=y1>=y2):
+            return True
+    elif (x2+w2>=x1>=x2 and y2+h2>=y1+h1>=y2):
+        return True
+    elif (x2+w2>=x1+w1>=x2 and y2+h2>=y1+h1>=y2):
+            return True
+    else:
+            return False
 class message:
 	## VARIOUS FONTS STYLES
 	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
@@ -87,7 +100,8 @@ class message:
 		
 		return intro
 def GameOver():
-		gameExit = False
+		global lives
+		gameExit = True
 		game = message()
 		gameOver = True	
 		while gameOver:
@@ -97,35 +111,65 @@ def GameOver():
 			pygame.display.update()	
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					#gameOver = True
-					gameExit = True	
+						pygame.quit()
+						quit()
 				elif event.type== pygame.KEYDOWN :
 					if event.key == pygame.K_q:
-						gameExit = True
-						#gameOver = True
-						game_intr()
+						pygame.quit()
+						quit()
 					elif event.key == pygame.K_c:
 						gameExit = False
 						gameOver = False
+						lives = 3
 						gamem()	
 def game_intr():
 	game = message()
 	intro = True 
-  	pygame.mixer.music.stop()
+  	
+	background = pygame.image.load("Assets/background.bmp")
+	
+	grass = IntroGrass(800,608)
+	displace = 32
+	grassList = []
+	grassList.append(grass)
+	pygame.mixer.music.stop()
 	pygame.mixer.music.load('Assets/Sounds/introMusic.mp3')
 	pygame.mixer.music.play(-1)
+	count = 1
+	x = 400
+	y = 300
+
+	dx = random.randrange(-10,10)
+	dy = random.randrange(-10,10)
+
 	while intro:
+			if count%3==0:
+				grass = IntroGrass(800,608)
+				grassList.append(grass)
 			gameDisplay.fill(black)
-			circle = IntroCircle(5)
-			randcirclelist.append(circle)
-            		for circle in randcirclelist:
-               			circle.update()
-                		if circle.radius >= 500:
-                    			randcirclelist.remove(circle)
-                		circle.render(gameDisplay)
-			intro=game.message_to_screen("FlipOut!",(155,155,105),-150,size="large",text="none")
-			intro=game.message_to_screen("START GAME",white,-20)
-			intro=game.message_to_screen("EXIT GAME",white,20,text="exit")
+			gameDisplay.blit(background,(0,0))
+			count += 1
+			for grass in grassList:
+				grass.update()
+				if (grass.x < -32):
+					grassList.remove(grass)
+				grass.render(gameDisplay)
+			
+			if (x > 768):
+				dx *= -1
+			elif (x < 0):
+				dx *= -1
+			if (y < 0):
+				dy *= -1
+			elif (y > 608):	
+				dy *= -1	
+			x += dx
+			y += dy
+			pygame.draw.rect(gameDisplay, black, (x - 2, y - 2, 36, 36))
+			gameDisplay.blit(creeper, (x,y))	
+			intro=game.message_to_screen("FlipOut!",(135,155,105),-150,size="large",text="none")
+			intro=game.message_to_screen("START GAME",(139,0,139),-20)
+			intro=game.message_to_screen("EXIT GAME",(139,0,139),20,text="exit")
 			clock.tick(15)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -156,6 +200,8 @@ def gamem():
         game = message()
     	score = 0
 	count = 1
+	time = 180
+	sp_itms = 0
 	lead_x_change = 0
 	block_size = 32
 	gameOver = False
@@ -163,7 +209,8 @@ def gamem():
 	while not gameExit:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				gameExit = True
+				pygame.quit()
+				quit()
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_q:
 					gameOver = True		
@@ -183,6 +230,7 @@ def gamem():
 					
 		if lead_x_change >= 0:
 	        	player.x += lead_x_change/4 - lead_x_change/5
+			time -= 0.05
     		else:
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
@@ -203,11 +251,17 @@ def gamem():
             		score+=1	
 		for brick in brickList:
 			brick.x -= lead_x_change
+			if (brick.ID == 'q' and detectCollisions(player.x,player.y,player.width,player.height,brick.x,brick.y,32,32)):
+				brickList.remove(brick)
+				sp_itms += 1
+				player.flip()
 			brick.render(gameDisplay)
 		pygame.draw.rect(gameDisplay, black, (0,0,800,32))
 		game.display_score("Score   "+str(score),0,0)
+		game.display_score("Items  "+str(sp_itms),250,0)
 		game.display_score("Lives   "+str(lives),690,0)	
-		if lives == 0:
+		game.display_score("Time   "+str(int(time)),420,0)
+		if lives == 0 or time == 0:
 			GameOver()
 		pygame.display.update()			
 		clock.tick(fps)
