@@ -24,7 +24,7 @@ fps = 120
 
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 pygame.display.set_caption("FlipOut!")
-pygame.display.set_icon(pygame.image.load('Assets/creeper.bmp'))
+pygame.display.set_icon(pygame.image.load('Assets/Images/creeper.bmp'))
 
 player = Player(400,300)
 
@@ -33,7 +33,7 @@ count = 0
 lives = 3
 pygame.mixer.init()
 
-creeper = pygame.image.load('Assets/creeper.bmp')
+creeper = pygame.image.load('Assets/Images/creeper.bmp')
 def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
     if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
         return True
@@ -128,7 +128,7 @@ def game_intr():
 	game = message()
 	intro = True 
   	
-	background = pygame.image.load("Assets/background.bmp")
+	background = pygame.image.load("Assets/Images/background.bmp")
 	
 	grass = IntroGrass(800,608)
 	displace = 32
@@ -188,7 +188,7 @@ def gamem():
   	pygame.mixer.music.stop()
 	pygame.mixer.music.load('Assets/Sounds/gameMusic.mp3')
 	pygame.mixer.music.play(-1)
-	img = pygame.image.load('Assets/creeper.bmp')
+	img = pygame.image.load('Assets/Images/creeper.bmp')
 	global lives
 	levelobj = Level(0)
 	brickList = []
@@ -242,9 +242,9 @@ def gamem():
 		gameDisplay.fill(white)
 
 		if (score - 5 >= 0 and score + 5 <= 15):
-			background = pygame.image.load("Assets/background.bmp")
+			background = pygame.image.load("Assets/Images/background.bmp")
 		else:
-			background = pygame.image.load("Assets/background.bmp")
+			background = pygame.image.load("Assets/Images/background.bmp")
 		gameDisplay.blit(background, (0,0))
 		gameOver,img = player.update(brickList,gameOver,img)
 		if (gameOver):

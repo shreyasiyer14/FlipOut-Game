@@ -70,7 +70,6 @@ class Player:
        
         return gameOver,img 
     def render(self,window,img):
-	#img = pygame.image.load('Assets/creeper.bmp')
         pygame.draw.rect(window, (0,0,0),(self.x-2, self.y-2, self.width+4, self.height+4))
 	window.blit(img,(self.x,self.y))
         
