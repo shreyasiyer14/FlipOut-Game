@@ -102,6 +102,7 @@ class message:
 		return intro
 def GameOver():
 		global lives
+		global score
 		gameExit = True
 		game = message()
 		gameOver = True	
