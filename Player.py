@@ -34,12 +34,12 @@ class Player:
         blockX,blockY=0,0       
         for block in blockList:
             hasCollided = self.detectCollisions(self.x, self.y, self.width, self.height, block.x, block.y, block.width, block.height)
-            if (hasCollided and (block.y == 0 or block.y == 608)):
+            if (hasCollided and (block.y == 0 or block.y == 608 or block.ID == 'q')):
                 blockX = block.x
                 blockY = block.y
                 hasCollided = True
                 break
-	    if (hasCollided and block.y > 0 and block.y < 608):
+	    if (hasCollided and block.y > 0 and block.y < 608 and block.ID != 'q'):
             	gameOver = True
 	    else:
                 hasCollided = False

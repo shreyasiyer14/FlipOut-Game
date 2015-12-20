@@ -19,7 +19,7 @@ yellow =(255,255,0)
 
 screenWidth = 800
 screenHeight = 640
-fps = 60
+fps = 120
 
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 pygame.display.set_caption("FlipOut!")
@@ -31,6 +31,18 @@ score = 0
 count = 0
 lives = 3
 pygame.mixer.init()
+
+def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
+    if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
+        return True
+    elif (x2+w2>=x1+w1>=x2 and y2+h2>=y1>=y2):
+            return True
+    elif (x2+w2>=x1>=x2 and y2+h2>=y1+h1>=y2):
+        return True
+    elif (x2+w2>=x1+w1>=x2 and y2+h2>=y1+h1>=y2):
+            return True
+    else:
+            return False
 class message:
 	## VARIOUS FONTS STYLES
 	small_font =  pygame.font.Font('Fonts/tlpsmb.ttf',25)
@@ -87,7 +99,8 @@ class message:
 		
 		return intro
 def GameOver():
-		gameExit = False
+		global lives
+		gameExit = True
 		game = message()
 		gameOver = True	
 		while gameOver:
@@ -97,16 +110,16 @@ def GameOver():
 			pygame.display.update()	
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					#gameOver = True
-					gameExit = True	
+						pygame.quit()
+						quit()
 				elif event.type== pygame.KEYDOWN :
 					if event.key == pygame.K_q:
-						gameExit = True
-						#gameOver = True
-						game_intr()
+						pygame.quit()
+						quit()
 					elif event.key == pygame.K_c:
 						gameExit = False
 						gameOver = False
+						lives = 3
 						gamem()	
 def game_intr():
 	game = message()
@@ -156,6 +169,8 @@ def gamem():
         game = message()
     	score = 0
 	count = 1
+	time = 180
+	sp_itms = 0
 	lead_x_change = 0
 	block_size = 32
 	gameOver = False
@@ -163,7 +178,8 @@ def gamem():
 	while not gameExit:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				gameExit = True
+				pygame.quit()
+				quit()
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_q:
 					gameOver = True		
@@ -183,6 +199,7 @@ def gamem():
 					
 		if lead_x_change >= 0:
 	        	player.x += lead_x_change/4 - lead_x_change/5
+			time -= 0.05
     		else:
         		player.x += -lead_x_change/4 + lead_x_change/5
 					
@@ -203,11 +220,17 @@ def gamem():
             		score+=1	
 		for brick in brickList:
 			brick.x -= lead_x_change
+			if (brick.ID == 'q' and detectCollisions(player.x,player.y,player.width,player.height,brick.x,brick.y,32,32)):
+				brickList.remove(brick)
+				sp_itms += 1
+				player.flip()
 			brick.render(gameDisplay)
 		pygame.draw.rect(gameDisplay, black, (0,0,800,32))
 		game.display_score("Score   "+str(score),0,0)
+		game.display_score("Items  "+str(sp_itms),250,0)
 		game.display_score("Lives   "+str(lives),690,0)	
-		if lives == 0:
+		game.display_score("Time   "+str(int(time)),420,0)
+		if lives == 0 or time == 0:
 			GameOver()
 		pygame.display.update()			
 		clock.tick(fps)
