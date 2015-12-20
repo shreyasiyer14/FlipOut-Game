@@ -5,7 +5,7 @@ import random
 from Brick import *
 from Player import *
 from Level import *
-from IntroCircle import *
+from IntroGrass import *
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -32,6 +32,7 @@ count = 0
 lives = 3
 pygame.mixer.init()
 
+creeper = pygame.image.load('Assets/creeper.bmp')
 def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
     if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
         return True
@@ -124,21 +125,40 @@ def GameOver():
 def game_intr():
 	game = message()
 	intro = True 
-  	pygame.mixer.music.stop()
+  	
+	background = pygame.image.load("Assets/background.bmp")
+	
+	grass = IntroGrass(800,608)
+	displace = 32
+	grassList = []
+	grassList.append(grass)
+	pygame.mixer.music.stop()
 	pygame.mixer.music.load('Assets/Sounds/introMusic.mp3')
 	pygame.mixer.music.play(-1)
+	count = 1
+	
+	tempPlayer = Player(400,300)
+	tempdx = random.randrange(-5,5)
+	
 	while intro:
+			tempPlayer.x += tempdx
+			tempPlayer.update([],0,creeper)	
+			if count%3==0:
+				grass = IntroGrass(800,608)
+				grassList.append(grass)
 			gameDisplay.fill(black)
-			circle = IntroCircle(5)
-			randcirclelist.append(circle)
-            		for circle in randcirclelist:
-               			circle.update()
-                		if circle.radius >= 500:
-                    			randcirclelist.remove(circle)
-                		circle.render(gameDisplay)
-			intro=game.message_to_screen("FlipOut!",(155,155,105),-150,size="large",text="none")
-			intro=game.message_to_screen("START GAME",white,-20)
-			intro=game.message_to_screen("EXIT GAME",white,20,text="exit")
+			gameDisplay.blit(background,(0,0))
+			count += 1
+			for grass in grassList:
+				grass.update()
+				if (grass.x < -32):
+					grassList.remove(grass)
+				grass.render(gameDisplay)
+		
+			tempPlayer.render(gameDisplay,creeper)
+			intro=game.message_to_screen("FlipOut!",(135,155,105),-150,size="large",text="none")
+			intro=game.message_to_screen("START GAME",(139,0,139),-20)
+			intro=game.message_to_screen("EXIT GAME",(139,0,139),20,text="exit")
 			clock.tick(15)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
