@@ -107,8 +107,8 @@ def GameOver():
 		game = message()
 		gameOver = True	
 		while gameOver:
-			gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="medium")
-			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="small")
+			gameOver=game.message_to_screen("Game over",(255,155,105),y_displace=-50,size="medium")
+			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",white,y_displace = 50,size="small")
 			
 			pygame.display.update()	
 			for event in pygame.event.get():
@@ -267,7 +267,11 @@ def gamem():
 		game.display_score("Lives   "+str(lives),690,0)	
 		game.display_score("Time   "+str(int(time)),420,0)
 		if lives == 0 or int(time) == 0:
+			gameDisplay.fill(black)
 			GameOver()
+		if (player.x >= 92*32):
+			gameDisplay.fill(black)
+			game.display_score("Congratulations! You completed the level!",350,320)
 		pygame.display.update()			
 		clock.tick(fps)
 
