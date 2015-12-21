@@ -37,15 +37,25 @@ creeper = pygame.image.load('Assets/Images/creeper.bmp')
 def pre_game_start():
 	global lives
 	global score
-	gameDisplay.fill(black)
+
+	bg = pygame.image.load('Assets/Images/background.bmp')
+	tx,ty = 0,0
+	tw,th = 800,640
 	game = message()
-	game.display_score("Score  "+str(score),350,250)
-	game.display_score("Lives  "+str(lives),350,320)
-	game.display_score("Press any key to continue ... ",250,550)
 	while True:
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				gamem()
+		gameDisplay.fill(black)
+		gameDisplay.blit(bg,(0,0))
+		pygame.draw.rect(gameDisplay,black,(tx,ty,tw,th))
+		tx += 10
+		ty += 10
+		tw -= 20
+		th -= 20
+		
+		
+		game.display_score("Score  "+str(score),350,250)
+		game.display_score("Lives  "+str(lives),350,320)
+		if tx == 800:
+			gamem()
 		pygame.display.update()
 
 def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
