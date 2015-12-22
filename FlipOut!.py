@@ -17,7 +17,6 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-
 screenWidth = 800
 screenHeight = 640
 fps = 120
@@ -31,9 +30,34 @@ player = Player(400,300)
 score = 0
 count = 0
 lives = 3
+
 pygame.mixer.init()
 
 creeper = pygame.image.load('Assets/Images/creeper.bmp')
+def pre_game_start():
+	global lives
+	global score
+	pygame.mixer.music.stop()
+	bg = pygame.image.load('Assets/Images/background.bmp')
+	tx,ty = 0,0
+	tw,th = 800,640
+	game = message()
+	while True:
+		gameDisplay.fill(black)
+		gameDisplay.blit(bg,(0,0))
+		pygame.draw.rect(gameDisplay,black,(tx,ty,tw,th))
+		tx += 10
+		ty += 10
+		tw -= 20
+		th -= 20
+		
+		
+		game.display_score("Score  "+str(score),350,250)
+		game.display_score("Lives  "+str(lives),350,320)
+		if tx == 800:
+			gamem()
+		pygame.display.update()
+
 def detectCollisions(x1,y1,w1,h1,x2,y2,w2,h2):
     if (x2+w2>=x1>=x2 and y2+h2>=y1>=y2):
         return True
@@ -102,12 +126,14 @@ class message:
 		return intro
 def GameOver():
 		global lives
+		global score
 		gameExit = True
 		game = message()
 		gameOver = True	
+		pygame.mixer.music.stop()
 		while gameOver:
-			gameOver=game.message_to_screen("Game over",red,y_displace=-50,size="medium")
-			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",black,y_displace = 50,size="small")
+			gameOver=game.message_to_screen("Game over",(255,155,105),y_displace=-50,size="medium")
+			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",white,y_displace = 50,size="small")
 			
 			pygame.display.update()	
 			for event in pygame.event.get():
@@ -143,7 +169,8 @@ def game_intr():
 
 	dx = random.randrange(-10,10)
 	dy = random.randrange(-10,10)
-
+	change = 10
+        count1 = 1
 	while intro:
 			if count%3==0:
 				grass = IntroGrass(800,608)
@@ -163,16 +190,21 @@ def game_intr():
 				dx *= -1
 			if (y < 0):
 				dy *= -1
-			elif (y > 608):	
+			elif (y > 608-32):	
 				dy *= -1	
 			x += dx
 			y += dy
 			pygame.draw.rect(gameDisplay, black, (x - 2, y - 2, 36, 36))
 			gameDisplay.blit(creeper, (x,y))	
-			intro=game.message_to_screen("FlipOut!",(135,155,105),-150,size="large",text="none")
+			intro=game.message_to_screen("FlipOut!",(135-change,155+change,105+change),-150 + change,size="large",text="none")
 			intro=game.message_to_screen("START GAME",(139,0,139),-20)
 			intro=game.message_to_screen("EXIT GAME",(139,0,139),20,text="exit")
-			clock.tick(15)
+			clock.tick(60)
+            		count1 += 1
+            		if (count1%2):
+                		change -= 10
+            		else:
+                		change += 10
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					intro = False
@@ -184,7 +216,6 @@ def game_intr():
 lives = 3
 sp_itms = 0
 def gamem():
-
   	pygame.mixer.music.stop()
 	pygame.mixer.music.load('Assets/Sounds/gameMusic.mp3')
 	pygame.mixer.music.play(-1)
@@ -249,7 +280,7 @@ def gamem():
 		gameOver,img = player.update(brickList,gameOver,img)
 		if (gameOver):
 			lives -= 1
-			gamem()
+			pre_game_start()
 		player.render(gameDisplay,img)		
         	if (int(count)%50==0):
             		score+=1	
@@ -266,11 +297,16 @@ def gamem():
 		game.display_score("Lives   "+str(lives),690,0)	
 		game.display_score("Time   "+str(int(time)),420,0)
 		if lives == 0 or int(time) == 0:
+			gameDisplay.fill(black)
 			GameOver()
+		if (player.x >= 92*32):
+			gameDisplay.fill(black)
+			game.display_score("Congratulations! You completed the level!",350,320)
 		pygame.display.update()			
 		clock.tick(fps)
 
-game_intr()
-pygame.quit()
-quit()					
+if __name__ == "__main__":
+	game_intr()
+	pygame.quit()
+	quit()					
 
