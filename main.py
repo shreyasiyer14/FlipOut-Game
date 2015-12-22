@@ -37,7 +37,7 @@ creeper = pygame.image.load('Assets/Images/creeper.bmp')
 def pre_game_start():
 	global lives
 	global score
-
+	pygame.mixer.music.stop()
 	bg = pygame.image.load('Assets/Images/background.bmp')
 	tx,ty = 0,0
 	tw,th = 800,640
@@ -130,6 +130,7 @@ def GameOver():
 		gameExit = True
 		game = message()
 		gameOver = True	
+		pygame.mixer.music.stop()
 		while gameOver:
 			gameOver=game.message_to_screen("Game over",(255,155,105),y_displace=-50,size="medium")
 			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",white,y_displace = 50,size="small")
