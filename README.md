@@ -33,7 +33,7 @@ Making this game was really fun, and the concept of the game makes it addictive.
 **Snapshots:**
 <br>
 (Game Intro)
-![Alt text](https://github.com/djeof-1/FlipOut/blob/master/Screenshots/Screenshot%232.png" Screenshot #1")
+![Alt text](https://github.com/djeof-1/FlipOut/blob/master/Screenshots/Screenshot%232.png "Screenshot #1")
 
 ***
 
