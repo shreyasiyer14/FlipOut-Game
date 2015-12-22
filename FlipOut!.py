@@ -17,7 +17,6 @@ red = (255,0,0)
 green = (0,120,0)
 yellow =(255,255,0)
 
-
 screenWidth = 800
 screenHeight = 640
 fps = 120
@@ -31,6 +30,7 @@ player = Player(400,300)
 score = 0
 count = 0
 lives = 3
+
 pygame.mixer.init()
 
 creeper = pygame.image.load('Assets/Images/creeper.bmp')
@@ -169,7 +169,8 @@ def game_intr():
 
 	dx = random.randrange(-10,10)
 	dy = random.randrange(-10,10)
-
+	change = 10
+        count1 = 1
 	while intro:
 			if count%3==0:
 				grass = IntroGrass(800,608)
@@ -189,16 +190,21 @@ def game_intr():
 				dx *= -1
 			if (y < 0):
 				dy *= -1
-			elif (y > 608):	
+			elif (y > 608-32):	
 				dy *= -1	
 			x += dx
 			y += dy
 			pygame.draw.rect(gameDisplay, black, (x - 2, y - 2, 36, 36))
 			gameDisplay.blit(creeper, (x,y))	
-			intro=game.message_to_screen("FlipOut!",(135,155,105),-150,size="large",text="none")
+			intro=game.message_to_screen("FlipOut!",(135-change,155+change,105+change),-150 + change,size="large",text="none")
 			intro=game.message_to_screen("START GAME",(139,0,139),-20)
 			intro=game.message_to_screen("EXIT GAME",(139,0,139),20,text="exit")
-			clock.tick(15)
+			clock.tick(60)
+            		count1 += 1
+            		if (count1%2):
+                		change -= 10
+            		else:
+                		change += 10
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					intro = False
@@ -210,7 +216,6 @@ def game_intr():
 lives = 3
 sp_itms = 0
 def gamem():
-
   	pygame.mixer.music.stop()
 	pygame.mixer.music.load('Assets/Sounds/gameMusic.mp3')
 	pygame.mixer.music.play(-1)
@@ -302,7 +307,6 @@ def gamem():
 
 if __name__ == "__main__":
 	game_intr()
-	pre_game_start()
 	pygame.quit()
 	quit()					
 
