@@ -75,7 +75,7 @@ class message:
 	med_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',40)
 	large_font =  pygame.font.Font('Fonts/PAC-FONT.TTF',60)
 	def_font =  pygame.font.Font('Fonts/classic.TTF',25)
-	gameov_font  = pygame.font.Font('Fonts/eddie.ttf',50)
+	gameov_font  = pygame.font.Font('Fonts/classic.TTF',50)
 	def __init__(self):
 		pass
 	## MAKING TEXT MSG ENTERED TO AN OBJECT
@@ -131,6 +131,9 @@ def GameOver():
 		game = message()
 		gameOver = True	
 		pygame.mixer.music.stop()
+		pygame.mixer.music.load('Assets/Sounds/gameOver.mp3')
+		pygame.mixer.music.set_volume(1.0)
+		pygame.mixer.music.play(1)
 		while gameOver:
 			gameOver=game.message_to_screen("Game over",(255,155,105),y_displace=-50,size="medium")
 			gameOver=game.message_to_screen(" Press C to play again or Q to quit ",white,y_displace = 50,size="small")
