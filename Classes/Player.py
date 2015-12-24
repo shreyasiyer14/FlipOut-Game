@@ -13,7 +13,7 @@ class Player:
         self.direction = 1
        
     def flip(self):
-        self.velocity = -10
+        self.velocity = -5
         self.direction*=-1
         self.y += self.direction*self.velocity
         
@@ -59,11 +59,11 @@ class Player:
             self.onGround = False
 
         if (self.onGround == False):
-           self.velocity+=-0.3
+           self.velocity+=-0.2
 	   self.falling = True
         else:
            self.direction*=-1
-           self.velocity+=-0.5
+           self.velocity+=-0.4
            self.falling = True
            self.onGround = False
         self.y-=(self.velocity*self.direction)
