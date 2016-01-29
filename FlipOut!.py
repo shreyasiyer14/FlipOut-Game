@@ -19,7 +19,7 @@ yellow =(255,255,0)
 
 screenWidth = 800
 screenHeight = 640
-fps = 120
+fps = 60
 
 gameDisplay = pygame.display.set_mode((screenWidth,screenHeight))
 pygame.display.set_caption("FlipOut!")
@@ -238,7 +238,7 @@ def gamem():
     	global score
 	sp_itms = 0
 	count = 1
-	time = 40
+	time = 60
 	
 	lead_x_change = 0
 	block_size = 32
@@ -281,7 +281,7 @@ def gamem():
 			background = pygame.image.load("Assets/Images/background.bmp")
 		gameDisplay.blit(background, (0,0))
 		gameOver,img = player.update(brickList,gameOver,img)
-		if (gameOver):
+		if (gameOver or int(time) <= 0):
 			lives -= 1
 			pre_game_start()
 		player.render(gameDisplay,img)		
@@ -299,7 +299,7 @@ def gamem():
 		game.display_score("Items  "+str(sp_itms),250,0)
 		game.display_score("Lives   "+str(lives),690,0)	
 		game.display_score("Time   "+str(int(time)),420,0)
-		if lives == 0 or int(time) == 0:
+		if lives == 0:
 			gameDisplay.fill(black)
 			GameOver()
 		if (player.x >= 92*32):
