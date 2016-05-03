@@ -1,11 +1,11 @@
 # Welcome to the FlipOut!'s wiki!
 
-### Author: Shreyas Iyer<br>
+### Authors: Shreyas Iyer, Pranav Kedia<br>
 ### Developed in: Python 2.7<br>
 
 ***
 
-FlipOut is a game I had developed for a hackathon I had participated in. I was given 10 hours to complete the project and give a demonstration, and so I developed FlipOut! FlipOut is an arcade game, with real (legit!) retro chiptunes, 8bit graphics(!) , and also the classic arcade font! 
+FlipOut is a game my team had developed for a hackathon we had participated in. We were given 10 hours to complete the project and give a demonstration, and so I developed FlipOut! FlipOut is an arcade game, with real (legit!) retro chiptunes, 8bit graphics(!) , and also the classic arcade font! 
 
 Making this game was really fun, and the concept of the game makes it addictive.
 
