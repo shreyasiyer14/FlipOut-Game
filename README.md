@@ -1,6 +1,6 @@
 # Welcome to the FlipOut!'s wiki!
 
-### Authors: Shreyas Iyer, Pranav Kedia<br>
+### Authors: Shreyas Iyer, Pranav Kedia, Vaibhav Aggarwal<br>
 ### Developed in: Python 2.7<br>
 
 ***
